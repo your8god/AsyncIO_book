@@ -17,7 +17,7 @@ async def close_echo(tasks):
         try:
             await task
         except asyncio.exceptions.TimeoutError:
-            pass
+            print("I'm closing. Bye!")
 
 async def echo(connection, loop, address):
     while data := await loop.sock_recv(connection, 1024):
