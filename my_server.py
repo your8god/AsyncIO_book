@@ -16,14 +16,13 @@ async def close_echo(tasks):
     for task in waiters:
         try:
             await task
-        except TimeoutError:
+        except asyncio.exceptions.TimeoutError:
             pass
 
 async def echo(connection, loop, address):
     while data := await loop.sock_recv(connection, 1024):
         print(f'Сообщение от {address}: {data}')
         await loop.sock_sendall(connection, data)
-
 
 async def listening(server_socket, loop):
     while True:
