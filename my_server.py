@@ -46,7 +46,7 @@ async def main():
     for item in ('SIGINT', 'SIGTERM'):
         main_loop.add_signal_handler(getattr(signal, item), exit_raise)
 
-    await listening(server_socket, asyncio.get_event_loop())
+    await listening(server_socket, main_loop)
 
 
 main_loop = asyncio.new_event_loop()
