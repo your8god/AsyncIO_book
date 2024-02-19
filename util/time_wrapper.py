@@ -10,5 +10,5 @@ def async_time(f):
         try:
             return await f(*args, **kwargs)
         finally:
-            print(f'{f.__name__} is ending. Total time = {round(time.perf_counter() - start_time, 2)}')
+            print(f'{f.__name__} is ending. Total time = {round(time.perf_counter() - start_time, 5)}')
     return wrapper
