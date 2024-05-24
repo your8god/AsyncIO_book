@@ -25,7 +25,7 @@ async def main():
     #await asyncio.create_task(delay(0.00001, ''))
 
     while not task1.done():
-        await asyncio.sleep(0.00000001)
+        await asyncio.sleep(0)
         current_time = pc() - start_time
         print(f'now is {current_time}')
         if current_time > 5:
