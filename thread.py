@@ -2,7 +2,8 @@ import requests
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from util import async_time
-from threading import Lock
+from threading import Lock, Thread
+from time import sleep
 
 def get_response():
     counter()
@@ -73,15 +74,47 @@ async def main5():
         await get_response_async()
 
 
+def print_progress_th():
+    global progress
+    while progress < 50:
+        print(f'progress: {progress}/50')
+        sleep(1.5)
+
+@async_time
+async def main6():
+    global progress
+    progress = 0
+    threads = [Thread(target=get_response) for _ in range(50)]
+    progress_thread = Thread(target=print_progress_th)
+    progress_thread.start()
+    for i in threads:
+        i.start()
+    progress_thread.join()
+
+
+@async_time
+async def main7():
+    global progress
+    progress = 0
+    with ThreadPoolExecutor(max_workers=50) as pool:
+        res = pool.submit(print_progress_th)
+        ress = [pool.submit(get_response) for _ in range(50)]
+        res.result()
+
+
 async def main():
     await main1()
     print()
     await main2()
     print()
-    await main3()
+    #await main3()
     print()
-    await main4()
+    #await main4()
     print()
-    await main5()
+    #await main5()
+    print()
+    await main6()
+    print()
+    await main7()
 
 asyncio.run(main())
